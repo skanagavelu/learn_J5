@@ -1,5 +1,6 @@
 package generics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OverloadAndOverride {
@@ -32,15 +33,49 @@ public class OverloadAndOverride {
 		Y yObj = new Y();
 		yObj.overload("hello"); //String Val
 		
+		HideObject hObj = new HideObject();
+		Object oObj = (Object) yObj;
+//		hObj.overload(oObj); CE: The method overload(X) in the type HideObject is not applicable for the arguments (Object)
+		hObj.overload(yObj);  //HideObject Y obj
+
+		xObj = yObj;
+		hObj.overload(xObj);  //HideObject X obj
 		
 		
+		
+		//Overriding is runtime feature, 
+		//so i think Generics don't have impact here.
+		GenericBase gBase = new GenericChild();
+		gBase.method(new ArrayList()); //Method no generic List called
+		
+		List gList = new ArrayList();
+		gBase.method(gList);           //Method no generic List called
+		
+		List<Object> gObjectList = gList;
+//		gBase.method(gObjectList); CE: The method method(List<String>) in the type GenericBase is not applicable for the arguments (List<Object>)
+		
+		List<String> gStringList = gList;
+		gBase.method(gStringList);    //Method no generic List called
+		
+		System.out.println("Irrespective of child or parent references; always Overiding happens. ");
+		GenericChild gChild = (GenericChild) gBase;
+		gChild.method(new ArrayList()); //Method no generic List called
+		
+		List gCList = new ArrayList();
+		gChild.method(gCList);           //Method no generic List called
+		
+		List<Object> gCObjectList = gCList;
+//		gBase.method(gCObjectList); CE: The method method(List<String>) in the type GenericBase is not applicable for the arguments (List<Object>)
+		
+		List<String> gCStringList = gList;
+		gBase.method(gCStringList);    //Method no generic List called
 	}
 }
 
 class X {
 
 	public void overload(Integer integerVal) {
-		System.out.println("Integer Val");
+		System.out.println("Integer Object Val");
 	}
 	
 	public void overload(int integerVal) {
@@ -76,5 +111,46 @@ class Z extends Y {
 	
 	public void overload(List<? super String> obj) {
 		System.out.println("String Val");
+	}
+}
+
+
+class HideObject {
+	public void overload(X obj) {
+		System.out.println("HideObject X obj");
+	}
+	
+	public void overload(Y obj) {
+		System.out.println("HideObject Y obj");
+	}
+}
+
+enum Constants {
+	I(){
+
+		@Override
+		public int method() {
+			return 0;
+		}
+		
+	};
+	public abstract int method();
+}
+
+
+class GenericBase {
+	public void method(List<String> list){
+		System.out.println("Method generic List called");
+	}
+}
+
+class GenericChild extends GenericBase {
+	//Below is valid to use
+//	public void method(List<String> list){
+//		System.out.println("Method List<String> list");
+//	}
+	
+	public void method(List list){
+		System.out.println("Method no generic List called");
 	}
 }
