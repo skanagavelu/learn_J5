@@ -154,3 +154,11 @@ class GenericChild extends GenericBase {
 		System.out.println("Method no generic List called");
 	}
 }
+
+
+
+
+class ClassWithMultiple<T extends Comparable<T>, E> {
+	T left;
+	E Right;
+}
