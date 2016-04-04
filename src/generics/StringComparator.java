@@ -15,6 +15,7 @@ public static void main(String[] args) {
 	Set<String> set = new TreeSet<String>();
 	set.add("ONE");
 	set.add("TWO");
+	set.add("ONE");
 	set.add("THREE");
 	System.out.println(set);
  }
