@@ -3,6 +3,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 
+ * Casting is required only when SuperClass reference is assigned to a Subclass.
+ * Object t = new String(); NO CASTING required.
+ * String t1 = (String)t; CASTING required.
+ * 
+ * And ClassCastException is runtime exception, since casting is explicitly done by user
+ * to avoid compiler check, and even compiler don't know what it can be e.g) non generic List can contain any object
+ * Hence only during runtime we can predict the failure of casting.
+ * 
+ * Hence 
+ * 
+ * Object x1 = new Object();
+ * String x2 = (String)x1; No CE.
+ * 
+ * 
+ * @author ksugumar
+ * 
+ */
 public class Casting {
 	public static void main(String[] args) {
 		SuperClass[] arraySuper = new SuperClass[10];
