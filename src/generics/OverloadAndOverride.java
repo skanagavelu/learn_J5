@@ -21,7 +21,23 @@ public class OverloadAndOverride {
 		System.out.println("Integer Val");
 	}
 	
+	class Genric<T> {
+		
+	}
+	
 	public static void main(String[] args) {
+		
+		List intList = new ArrayList();
+		List<Integer> integerList = intList;
+		
+		genericMethod(new ArrayList());
+		genericMethod(intList);
+		
+		List<Genric> genricList = new ArrayList<Genric>();
+		//Either you declare generic completely or dont use partially.
+//		genericMethod1(genricList); CE: The method genericMethod1(List<OverloadAndOverride.Genric<Integer>>) in the type OverloadAndOverride is not applicable for the arguments (List<OverloadAndOverride.Genric>)
+		genericMethod1(intList);
+		
 		OverloadAndOverride obj = new OverloadAndOverride();
 		obj.overload(1);  //integerVal
 		obj.overload(1L); //longVal
@@ -69,7 +85,14 @@ public class OverloadAndOverride {
 		
 		List<String> gCStringList = gList;
 		gBase.method(gCStringList);    //Method no generic List called
+		
+		gChild.overload("Hello"); 
+		gBase.overload("Hello");
+		gChild.overload(new Object());
 	}
+	
+	private static void genericMethod(List<Integer> list) {}
+	private static void genericMethod1(List<Genric<Integer>> list) {}
 }
 
 class X {
@@ -142,6 +165,10 @@ class GenericBase {
 	public void method(List<String> list){
 		System.out.println("Method generic List called");
 	}
+	
+	public void overload(String obj) {
+		System.out.println("GenericBase String Val");
+	}
 }
 
 class GenericChild extends GenericBase {
@@ -152,6 +179,10 @@ class GenericChild extends GenericBase {
 	
 	public void method(List list){
 		System.out.println("Method no generic List called");
+	}
+	
+	public void overload(Object obj) {
+		System.out.println("GenericChild Object Val");
 	}
 }
 
